@@ -26,6 +26,7 @@ export default {
                 params: {
                     num: 10,
                     offset: 0,
+                    archetype: this.store.archetype,
                 },
             })
                 .then((response) => {
@@ -70,7 +71,6 @@ main {
         background-color: white;
         display: flex;
         flex-wrap: wrap;
-        justify-content: space-between;
     }
 }
 </style>

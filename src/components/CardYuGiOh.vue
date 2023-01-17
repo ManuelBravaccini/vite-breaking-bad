@@ -23,6 +23,7 @@ export default {
 @use '../styles/partials/variables' as *;
 
 article {
+    margin: 1rem;
     font-size: 0.75rem;
     width: 200px;
     height: 400px;
