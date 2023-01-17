@@ -1,32 +1,57 @@
 <script>
-import { store } from '../store.js';
-//import CardYuGiOh from './CardYuGiOh.vue';
+import axios from 'axios';
+
+import { store } from "../store.js";
+
+import AppSelect from "./AppSelect.vue";
+import CardYuGiOh from './CardYuGiOh.vue';
 
 export default {
-    props: [
-        'cards'
-    ],
+    name: "AppMain",
+    components: {
+        CardYuGiOh,
+        AppSelect,
+    },
 
     data() {
         return {
             store,
+            apiUrl: "https://db.ygoprodeck.com/api/v7/cardinfo.php",
         }
     },
+
+    methods: {
+        getCard() {
+            axios.get(this.apiUrl, {
+                params: {
+                    num: 10,
+                    offset: 0,
+                },
+            })
+                .then((response) => {
+                    console.log(response.data.data);
+                    this.store.cardList = response.data.data;
+                    console.log(store.cardList);
+                })
+                .catch(function (error) {
+                    console.warn(error);
+                });
+        },
+    },
+    /*
+        created() {
+            this.getCard();
+        },
+    */
 }
 </script>
 
 <template>
     <main>
+        <button @click="getCard()">Load cards</button>
+        <AppSelect />
         <section class="container">
-            <article v-for="cardEl in store.cardList">
-
-                <img :src="cardEl.card_images.image_url" :alt="cardEl.name">
-
-                <p v-for="cardEl in cards">
-                    {{ cardEl.name }}
-                </p>
-
-            </article>
+            <CardYuGiOh v-for="(cardEl, index) in store.cardList" :key="index" :cardEl="cardEl" />
         </section>
     </main>
 </template>
@@ -36,15 +61,21 @@ export default {
 
 main {
     background-color: $main-bg;
-    //da togliere
-    width: 100%;
-    height: 2000px;
-    //
+
+    button {
+        font-size: 1rem;
+        padding: .5rem;
+        margin: 0 5rem;
+        margin-top: 1rem;
+    }
 
     section.container {
         margin: 0 5rem;
         padding: 2rem;
         background-color: white;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
     }
 }
 </style>
