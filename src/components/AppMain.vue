@@ -29,26 +29,25 @@ export default {
                 },
             })
                 .then((response) => {
-                    console.log(response.data.data);
+                    //console.log(response.data.data);
                     this.store.cardList = response.data.data;
-                    console.log(store.cardList);
+                    //console.log(store.cardList);
                 })
                 .catch(function (error) {
                     console.warn(error);
                 });
         },
     },
-    /*
-        created() {
-            this.getCard();
-        },
-    */
+
+    created() {
+        this.getCard();
+    },
+
 }
 </script>
 
 <template>
     <main>
-        <button @click="getCard()">Load cards</button>
         <AppSelect />
         <section class="container">
             <CardYuGiOh v-for="(cardEl, index) in store.cardList" :key="index" :cardEl="cardEl" />
@@ -61,15 +60,11 @@ export default {
 
 main {
     background-color: $main-bg;
-
-    button {
-        font-size: 1rem;
-        padding: .5rem;
-        margin: 0 5rem;
-        margin-top: 1rem;
-    }
+    height: 1250px;
 
     section.container {
+        height: 1091px;
+        overflow-y: auto;
         margin: 0 5rem;
         padding: 2rem;
         background-color: white;
